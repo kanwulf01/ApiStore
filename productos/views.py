@@ -11,10 +11,10 @@ from rest_framework.views import APIView
 
 
 # Create your views here.
-
+# Crea categeorias
 class CategoryViewSet(generics.GenericAPIView):
 
-    
+
     serializer_class = CategoriaPostSerializer
 
     def post(self,request,*args,**kwargs):
@@ -26,6 +26,7 @@ class CategoryViewSet(generics.GenericAPIView):
             "categoria":CategoriaPostSerializer(categori, context=self.get_serializer_context()).data
         })
 
+#Crea productos
 class ProductosPostViewSet(generics.GenericAPIView):
 
     serializer_class = ProductoSerializer
@@ -38,6 +39,7 @@ class ProductosPostViewSet(generics.GenericAPIView):
             "producto":ProductoSerializer(producto, context=self.get_serializer_context()).data
         })
 
+#crea las imagenes
 class ImagesPostViewSet(generics.GenericAPIView):
 
     serializer_class = ImageSerializer
@@ -50,25 +52,27 @@ class ImagesPostViewSet(generics.GenericAPIView):
             "images":ImageSerializer(images, context=self.get_serializer_context()).data
         })
 
-
+#Lista productos con imagenes anidadas
 class ListProductos(generics.ListAPIView):
 
     queryset = Producto.objects.all()
     serializer_class = ProductoImagenesSerializer
     #queryset.delete()
 
+#lista categorias con productos y categorias anidadas
 class ListCategorias(generics.ListAPIView):
 
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
     #queryset.delete()
 
+#lista todas las imagenes guardadas en el servidor
 class ListaImages(generics.ListAPIView):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     #queryset.delete()
 
-#Updatea la cantidad de un producto que ingreso al carrito de compras
+#Updatea la cantidad de un producto que ingreso al carrito de compras, variable cantidad llega dle front
 class UpdateProductos(APIView):
 
     def patch(self, request,pk,cantidad):
@@ -80,9 +84,10 @@ class UpdateProductos(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        else: 
+        else:
             return Response("error")
 
+#updatea la cantidad que se habia descontado, este valor llega desde el front, variable cantidad
 class RestauraProductos(APIView):
     def patch(self,request,pk,cantidad):
         model = get_object_or_404(Producto,pk=pk)
@@ -96,10 +101,10 @@ class RestauraProductos(APIView):
             return Response("error")
 
 
-
+#cuento las filas que tiene la tabla productos y la regreso al front para saber cuantas paginas tendra mi paginacion
 class getPaginationReturn(APIView):
 
-    
+
 
     def get(self, request):
 
@@ -114,7 +119,10 @@ class getPaginationReturn(APIView):
 # retorna temas de una categoria por id, recibe de parametros:
 # el numero de paginas de toda la paginacion
 # el numero de paginacion seleccionado
-# la id de la categoria
+# la id de la categoriar
+#el numero de productos que se vera en la pagina es de 6, se puede modificar el valor desde la variable
+#este metodo recibe el numero de paginas que tendra mi paginacion, y que numero de la pagina quiere ver
+#siempre se encarga de mandar solo 6 productos y mantiene un contador para que avance de 6 en 6
 class PaginationResponse(APIView):
 
 

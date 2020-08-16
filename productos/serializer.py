@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from .models import Producto, Categoria, Image
 
-#post de productos 
+#post de productos
 class ProductoSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -18,7 +18,7 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ('id','image','producto_id')
 
 
-#Lista de productos con imagenes
+#Lista de productos con imagenes, lista productos con muchas imagenes, gracias al related name que esta en image que apunta a producto
 class ProductoImagenesSerializer(serializers.ModelSerializer):
 
     images = ImageSerializer(many=True)
@@ -35,7 +35,7 @@ class ProductoImagenesSerializer(serializers.ModelSerializer):
             Image.objects.create(producto_id=produc_id, **image)
         return produc_id
 
-#devuelve categoria con productos anidados
+#devuelve categoria con productos anidados, gracias al related name puesto en en el modelo de producto, que apunta al modelo producto, anido los serializadores
 class CategoriaSerializer(serializers.ModelSerializer):
 
     productos = ProductoImagenesSerializer(many=True)

@@ -20,6 +20,7 @@ from django.conf import settings
 
 
 urlpatterns = [
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('users/', include('login_auth.urls')),
     path('products/',include('productos.urls')),

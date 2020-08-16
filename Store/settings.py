@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'login_auth',
     'rest_framework',
     'productos',
+    'django.contrib.admindocs',
 
 ]
 
