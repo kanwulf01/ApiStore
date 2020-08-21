@@ -92,6 +92,10 @@ class RestauraProductos(APIView):
     def patch(self,request,pk,cantidad):
         model = get_object_or_404(Producto,pk=pk)
         data = {'cantidad':model.cantidad+int(cantidad)}
+        #Desactiva el registro del carrito de Compras
+        with connection.cursor() as cursor:
+            cursor.execute('update"carrito_carrito" set activo=%s where productos_ids_id=%s',['FALSE',pk])
+
 
         serializer = ProductoSerializer(model, data=data, partial=True, context={'request':request})
         if serializer.is_valid():
@@ -119,7 +123,6 @@ class getPaginationReturn(APIView):
 # retorna temas de una categoria por id, recibe de parametros:
 # el numero de paginas de toda la paginacion
 # el numero de paginacion seleccionado
-# la id de la categoriar
 #el numero de productos que se vera en la pagina es de 6, se puede modificar el valor desde la variable
 #este metodo recibe el numero de paginas que tendra mi paginacion, y que numero de la pagina quiere ver
 #siempre se encarga de mandar solo 6 productos y mantiene un contador para que avance de 6 en 6
@@ -138,7 +141,7 @@ class PaginationResponse(APIView):
             cursor.execute('select count(*) from "productos_producto"')
             row = cursor.fetchone()
             intcantidad = int(row[0])
-        print("PINTA EL TAMAÑO DE LAS TAREAS SEGUN EL ID DE LA CATEGORIA"+str(intcantidad))
+        print("PINTA EL TAMAÑO DE LAS Productos SEGUN EL ID DE LA CATEGORIA"+str(intcantidad))
 
         for i in range(1,paginationpages+1):
 

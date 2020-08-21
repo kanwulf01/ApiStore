@@ -9,6 +9,11 @@ class SerializerUser(serializers.ModelSerializer):
         fields = ('id','username','first_name','last_name','email','password','last_login','is_active','date_joined')
         read_only_fields = ('email', 'first_name','last_name','id','is_active','date_joined','last_login')
 
+class SerializerUser2(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id','username')
+
 
 class RegisterSerializerUser(serializers.ModelSerializer):
     class Meta:
