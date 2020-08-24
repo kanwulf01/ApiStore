@@ -170,3 +170,20 @@ class PaginationResponse(APIView):
                 else:
                     return Response({"no entra":"no funciona"})
                     #print("no hacer nada")
+
+#Encontrar Producto por ID
+
+class GetProductoID(APIView):
+    
+
+    def get(self, request, pk):
+
+        snippet = Producto.objects.filter(pk=pk)
+        serializer = ProductoImagenesSerializer(snippet, many=True, context={'request':request})
+        
+
+        if not snippet:
+            return Response({"Error":"No existe producto"})
+        else:
+            return Response(serializer.data, status=200)
+

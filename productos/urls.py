@@ -14,5 +14,6 @@ urlpatterns = [
     path('restaura/<int:pk>/<int:cantidad>/',views.RestauraProductos.as_view(), name="restaura producto"),
     path('getCantidadTaskbyCat/', views.getPaginationReturn.as_view(), name="cantidadtask"),  
     path('testpagination/<int:paginationpages>/<int:paginationpage>/', views.PaginationResponse.as_view(), name="testpagination"),
+    path('getProducto/<int:pk>/', views.GetProductoID.as_view(), name="Find Producto"),
 
 ]

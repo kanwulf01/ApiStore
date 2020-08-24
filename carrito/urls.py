@@ -7,3 +7,4 @@ urlpatterns = [
     path('lista/<int:userId>/',views.CarritoListVieSet.as_view(), name="lista carrito"),
     path('comprados/<int:pk>/',views.CarritoProductosComprados.as_view(), name="carrito comprados"),
 ]
+
